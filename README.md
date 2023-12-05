@@ -1,6 +1,6 @@
 <br/>
 <p align="center">
-  <h3 align="center">Internship management</h3>
+  <h1 align="center">Internship Management System</h1>
 
   <p align="center">
     <a href="https://github.com//Internship-management">View Demo</a>
