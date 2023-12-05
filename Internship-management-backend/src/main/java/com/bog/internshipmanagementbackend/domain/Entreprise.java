@@ -1,5 +1,7 @@
 package com.bog.internshipmanagementbackend.domain;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,21 +12,17 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
-public class Stage {
+public class Entreprise {
 	
 	@Id
 	 @GeneratedValue(strategy = GenerationType.AUTO)
-	 private int Num;
-	 private String Id_prof;
-	 private int Promo;
-	 private int Annee;
-	 private int Type;
-	 private String Rapport;
-	 private String Convention;
-	 private String Fich_de_stage;
-	 private String Fiche_evaluation;
-	 private String Attestation;
-
+	 private String Id;
+	 private String Raison_sociale;
+	 private String Adresse;
+	 private String Forme_juridique;
+	 private String Ville;
+	 private String Num_contact;
+	 private String Num_standard;
 
 
 }
