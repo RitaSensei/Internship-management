@@ -1,12 +1,11 @@
 package com.bog.internshipmanagementbackend.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
@@ -17,5 +16,8 @@ public class Competence {
 	private String Code;
 	private String Libelle;
 	private String Description;
+
+	@OneToMany(mappedBy = "competence", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Exige> stages;
 	
 }

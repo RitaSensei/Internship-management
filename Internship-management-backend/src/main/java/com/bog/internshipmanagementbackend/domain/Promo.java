@@ -1,9 +1,6 @@
 package com.bog.internshipmanagementbackend.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,5 +14,11 @@ public class Promo {
 	private int Année;
 	private int Nbr_inscrits;
 	private int Nbr_reçus;
-	
+
+	@OneToOne(mappedBy = "etudiant")
+	private Etudiant etudiant;
+
+	@OneToOne
+	@JoinColumn(name = "id_prof")
+	private Professeur professeur;
 }
