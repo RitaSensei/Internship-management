@@ -1,28 +1,30 @@
 package com.bog.internshipmanagementbackend.domain;
 
-import java.util.Date;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import java.util.List;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data @AllArgsConstructor @NoArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor
 public class Entreprise {
-	
 	@Id
-	 @GeneratedValue(strategy = GenerationType.AUTO)
-	 private String Id;
-	 private String Raison_sociale;
-	 private String Adresse;
-	 private String Forme_juridique;
-	 private String Ville;
-	 private String Num_contact;
-	 private String Num_standard;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private String Id;
+	@Column(nullable = false)
+	private String Raison_sociale;
+	@Column(nullable = false)
+	private String Adresse;
+	@Column(nullable = false)
+	private String Forme_juridique;
+	@Column(nullable = false)
+	private String Ville;
+	@Column(nullable = false)
+	private String Num_contact;
+	@Column(nullable = false)
+	private String Num_standard;
 
-
+	@OneToMany(mappedBy = "entreprise", cascade = CascadeType.ALL)
+	private List<Stage> stages;
 }
