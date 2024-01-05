@@ -19,19 +19,22 @@ public class Examine implements Serializable {
     private Date Date_examen;
 
     @ManyToOne
-    @MapsId("Id")  // This maps to the field name in the ExigeId class
+    @MapsId("commissionId")  // This maps to the field name in the ExigeId class
     @JoinColumn(name = "id_commission")
     private Commission commission;
 
     @ManyToOne
-    @MapsId("id_candidat")  // This maps to the field name in the ExigeId class
+    @MapsId("candidatId")  // This maps to the field name in the ExigeId class
     @JoinColumn(name = "num_candidat")
     private Candidat candidat;
 
     @Embeddable
     @Data @NoArgsConstructor @AllArgsConstructor
     public static class ExamineId implements Serializable {
-        private String Num_candidat;
-        private String Id_commission;
+        @Column(name = "num_candidat")
+        private Long candidatId;
+
+        @Column(name = "id_commission")
+        private String commissionId;
     }
 }

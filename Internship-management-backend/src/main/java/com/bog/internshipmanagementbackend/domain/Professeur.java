@@ -25,6 +25,6 @@ public class Professeur {
     @Column(nullable = false)
     private Date Date_depart;
 
-    @OneToOne(mappedBy = "promo")
+    @OneToOne(mappedBy = "professeur") // Use the field name in the Promo entity
     private Promo promo;
 }
