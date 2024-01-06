@@ -12,13 +12,14 @@ public class Competence {
 
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)
-	private String Code;
+	private String code;
+
 	@Column(nullable = false)
-	private String Libelle;
+	private String libelle;
+
 	@Column(nullable = false)
-	private String Description;
+	private String description;
 
 	@OneToMany(mappedBy = "competence", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Exige> stages;
-
 }

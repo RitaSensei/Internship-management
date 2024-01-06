@@ -13,17 +13,24 @@ public class Professeur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String Id;
+    private String id;
+
     @Column(nullable = false)
-    private String Nom;
+    private String nom;
+
     @Column(nullable = false)
-    private String Prenom;
+    private String prenom;
+
     @Column(nullable = false)
-    private String Adresse;
+    private String adresse;
+
+    @Column(nullable = false,unique = true)
+    private String email;
+
     @Column(nullable = false)
-    private Date Date_embauche;
-    @Column(nullable = false)
-    private Date Date_depart;
+    private Date dateEmbauche;
+
+    private Date dateDepart;
 
     @OneToOne(mappedBy = "professeur") // Use the field name in the Promo entity
     private Promo promo;

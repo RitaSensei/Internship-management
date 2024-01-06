@@ -13,28 +13,39 @@ import java.util.Date;
 public class Etudiant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
+
     @Column(nullable = false)
-    private String Nom;
+    private String nom;
+
     @Column(nullable = false)
-    private String Prenom;
+    private String prenom;
+
     @Column(nullable = false)
-    private String Adresse;
+    private String adresse;
+
     @Column(nullable = false)
-    private Date Date_naissance;
+    private Date dateNaissance;
+
     @Column(nullable = false)
-    private String Sexe;
+    private String sexe;
+
+    @Column(nullable = false, unique = true)
+    private String numPerso;
+
+    @Column(unique=true,nullable=false)
+    private String email;
+
     @Column(nullable = false)
-    private String Num_perso;
+    private String mentionExamen;
+
     @Column(nullable = false)
-    private String Mention_examen;
-    @Column(nullable = false)
-    private Boolean Complétion_stage;
+    private Boolean completionStage;
 
     @OneToOne(mappedBy = "etudiant")
     private Stage stage;
 
     @OneToOne
-    @JoinColumn(name = "année")
+    @JoinColumn(name = "annee")
     private Promo promo;
 }

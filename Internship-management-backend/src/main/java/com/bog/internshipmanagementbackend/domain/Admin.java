@@ -11,13 +11,13 @@ public class Admin {
     private Long id;
 
     @Column(nullable = false)
-    private String Nom;
+    private String nom;
 
     @Column(nullable = false)
-    private String Prenom;
+    private String prenom;
 
     @Column(nullable = false)
-    private String Role;
+    private String role;
 
     @Column(unique=true,nullable=false)
     private String email;

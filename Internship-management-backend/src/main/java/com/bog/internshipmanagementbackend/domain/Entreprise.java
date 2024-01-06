@@ -12,19 +12,25 @@ import lombok.NoArgsConstructor;
 public class Entreprise {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String Id;
+	private String id;
+
+	@Column(nullable = false, unique = true)
+	private String raisonSociale;
+
 	@Column(nullable = false)
-	private String Raison_sociale;
+	private String adresse;
+
 	@Column(nullable = false)
-	private String Adresse;
+	private String formeJuridique;
+
 	@Column(nullable = false)
-	private String Forme_juridique;
-	@Column(nullable = false)
-	private String Ville;
-	@Column(nullable = false)
-	private String Num_contact;
-	@Column(nullable = false)
-	private String Num_standard;
+	private String ville;
+
+	@Column(nullable = false, unique = true)
+	private String numContact;
+
+	@Column(nullable = false, unique = true)
+	private String numStandard;
 
 	@OneToMany(mappedBy = "entreprise", cascade = CascadeType.ALL)
 	private List<Stage> stages;

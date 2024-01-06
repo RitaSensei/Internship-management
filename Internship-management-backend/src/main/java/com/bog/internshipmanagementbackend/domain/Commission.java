@@ -8,13 +8,13 @@ import java.util.List;
 public class Commission {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String Id;
+    private Long id;
     @Column(nullable = false)
-    private int Type;
+    private int type;
     @Column(nullable = false)
-    private int Num_candidat;
+    private Long numCandidat;
     @Column(nullable = false)
-    private String Avis;
+    private String avis;
 
     @OneToMany(mappedBy = "commission", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Examine> candidats;

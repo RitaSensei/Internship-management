@@ -6,10 +6,12 @@ import java.util.Date;
 
 @Data
 public class ProfesseurDto {
-    private String Id;
-    private String Nom;
-    private String Prenom;
-    private String Adresse;
-    private Date Date_embauche;
-    private Date Date_depart;
+    private Long id;
+    private String nom;
+    private String prenom;
+    private String adresse;
+    private String email;
+    private Date dateEmbauche;
+    private Date dateDepart;
+    private Long annee;
 }

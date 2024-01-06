@@ -5,13 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EtudiantRepository extends JpaRepository<Etudiant,Long> {
-    Etudiant findById(int id);
-    List<Etudiant> findAllById(Iterable<Long> id);
-    Etudiant findByEmailAndPassword(String email, String password);
+    Optional<Etudiant> findById(Long id);
+    List<Etudiant> findAllById(Iterable<Long> ids);
+    Etudiant findByEmailAndNumPerso(String email, String numPerso);
     Etudiant findByEmail(String email);
-    Etudiant findByPassword(String password);
-    List<Etudiant> findByPromo(int annee);
+    Etudiant findByNumPerso(String numPerso);
+    List<Etudiant> findByPromoAnnee(int annee);
 }

@@ -12,28 +12,30 @@ public class Exige implements Serializable {
 
     @EmbeddedId
     private ExigeId id;
+
     @Column(nullable = false)
-    private int Niveau_exige;
+    private int niveauExige;
+
     @Column(nullable = false)
-    private float Acquisition_competence;
+    private float acquisitionCompetence;
 
     @ManyToOne
     @MapsId("codeCompetence")  // This maps to the field name in the ExigeId class
-    @JoinColumn(name = "code_competence")
+    @JoinColumn(name = "codeCompetence")
     private Competence competence;
 
     @ManyToOne
     @MapsId("idStage")  // This maps to the field name in the ExigeId class
-    @JoinColumn(name = "id_stage")
+    @JoinColumn(name = "idStage")
     private Stage stage;
 
     @Embeddable
     @Data @NoArgsConstructor @AllArgsConstructor
     public static class ExigeId implements Serializable {
-        @Column(name = "code_competence")
+        @Column(name = "codeCompetence")
         private String codeCompetence;  // Corresponding to the Competence primary key
 
-        @Column(name = "id_stage")
+        @Column(name = "idStage")
         private String idStage;  // Corresponding to the Stage primary key
     }
 }

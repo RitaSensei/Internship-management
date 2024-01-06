@@ -14,41 +14,47 @@ import java.util.List;
 public class Stage {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "num_stage")
-	private String Id;
+	@Column(name = "numStage")
+	private String id;
+
 	@Column(nullable = false)
-	private String id_prof;
+	private String idProf;
+
 	@Column(nullable = false)
 	private int promo;
+
 	@Column(nullable = false)
 	private int annee;
+
 	@Column(nullable = false)
 	private int type;
-	@Column(nullable = false)
-	@Lob
-	private String rapport;
-	@Column(nullable = false)
-	@Lob
-	private String convention;
-	@Column(name = "fiche_de_stage",nullable = false)
-	@Lob
-	private String ficheDeStage;
-	@Column(name = "fiche_evaluation",nullable = false)
-	@Lob
-	private String attestation;
 
+	@Column(nullable = false)
+	private String rapportPath;
+
+	@Column(nullable = false)
+	private String conventionPath;
+
+	@Column(nullable = false)
+	private String attestationPath;
+
+	@Column(nullable = false)
+	private String ficheDeStagePath;
+
+	@Column(nullable = false)
+	private String ficheEvaluationPath;
 
 	@ManyToOne
-	@JoinColumn(name = "id_entreprise")
+	@JoinColumn(name = "idEntreprise")
 	private Entreprise entreprise;
 
 	@OneToOne
-	@JoinColumn(name = "id_etudiant")
+	@JoinColumn(name = "idEtudiant")
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Etudiant etudiant;
 
 	@OneToOne
-	@JoinColumn(name = "id_tuteur")
+	@JoinColumn(name = "idTuteur")
 	private Tuteur tuteur;
 
 	@OneToMany(mappedBy = "stage", cascade = CascadeType.ALL, orphanRemoval = true)

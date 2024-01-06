@@ -9,24 +9,25 @@ import java.util.List;
 public class Candidat {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
     @Column(nullable = false)
-    private String Nom;
+    private String nom;
     @Column(nullable = false)
-    private String Prenom;
+    private String prenom;
     @Column(nullable = false)
-    private String Adresse;
+    private String adresse;
     @Column(nullable = false)
-    private Date Date_naissance;
+    private Date dateNaissance;
     @Column(nullable = false)
-    private String Sexe;
+    private String sexe;
     @Column(nullable = false,unique = true)
-    private String Num_perso;
+    private String numPerso;
+    @Column(nullable = false,unique = true)
+    private String email;
     @Column(nullable = false)
-    private String Dossier1;
-    private String Dossier2;
+    private String dossier1;
+    private String dossier2;
 
     @OneToMany(mappedBy = "candidat", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Examine> commissions;
-
 }

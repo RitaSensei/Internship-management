@@ -11,16 +11,19 @@ public class Promo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int Année;
-	@Column(nullable = false)
-	private int Nbr_inscrits;
-	@Column(nullable = false)
-	private int Nbr_reçus;
+	private int annee;
 
-	@OneToOne(mappedBy = "etudiant")
+	@Column(nullable = false)
+	private int nbrInscrits;
+
+	@Column(nullable = false)
+	private int nbrReçus;
+
+	@OneToOne
+	@JoinColumn(name = "idEtudiant")
 	private Etudiant etudiant;
 
 	@OneToOne
-	@JoinColumn(name = "id_prof")
+	@JoinColumn(name = "idProf")
 	private Professeur professeur;
 }

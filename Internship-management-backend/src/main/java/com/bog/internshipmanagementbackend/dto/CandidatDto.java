@@ -3,16 +3,19 @@ package com.bog.internshipmanagementbackend.dto;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class CandidatDto {
-    private Long Id;
-    private String Nom;
-    private String Prenom;
-    private String Adresse;
-    private Date Date_naissance;
-    private String Sexe;
-    private String Num_perso;
-    private String Dossier1;
-    private String Dossier2;
+    private Long id;
+    private String nom;
+    private String prenom;
+    private String adresse;
+    private Date dateNaissance;
+    private String sexe;
+    private String numPerso;
+    private String email;
+    private String dossier1;
+    private String dossier2;
+    private List<Long> commissionIds;
 }

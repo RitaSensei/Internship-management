@@ -12,17 +12,22 @@ import lombok.NoArgsConstructor;
 public class Tuteur {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String Id;
+	private String id;
+
 	@Column(nullable = false)
-	private String Nom;
+	private String nom;
+
 	@Column(nullable = false)
-	private String Prenom;
+	private String prenom;
+
 	@Column(nullable = false)
-	private String Sexe;
+	private String sexe;
+
+	@Column(nullable = false, unique = true)
+	private String numPerso;
+
 	@Column(nullable = false)
-	private Date Num_perso;
-	@Column(nullable = false)
-	private String Id_entreprise;
+	private String idEntreprise;
 
 	@OneToOne(mappedBy = "tuteur")
 	private Stage stage;

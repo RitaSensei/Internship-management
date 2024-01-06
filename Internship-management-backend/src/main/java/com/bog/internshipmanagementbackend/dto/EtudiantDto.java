@@ -6,13 +6,16 @@ import java.util.Date;
 
 @Data
 public class EtudiantDto {
-    private Long Id;
-    private String Nom;
-    private String Prenom;
-    private String Adresse;
-    private Date Date_naissance;
-    private String Sexe;
-    private String Num_perso;
-    private String Mention_examen;
-    private Boolean Complétion_stage;
+    private Long id;
+    private String nom;
+    private String prenom;
+    private String adresse;
+    private Date dateNaissance;
+    private String sexe;
+    private String numPerso;
+    private String email;
+    private String mentionExamen;
+    private Boolean completionStage;
+    private Long numStage;
+    private Long annee;
 }
