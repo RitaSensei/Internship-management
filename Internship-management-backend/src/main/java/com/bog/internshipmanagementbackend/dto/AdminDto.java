@@ -6,4 +6,5 @@ import lombok.Data;
 public class AdminDto {
     private Long id;
     private String email,password;
+    private String role;
 }

@@ -1,50 +1,99 @@
 package com.bog.internshipmanagementbackend.service.impl;
 
+import com.bog.internshipmanagementbackend.domain.Etudiant;
 import com.bog.internshipmanagementbackend.dto.EtudiantDto;
 import com.bog.internshipmanagementbackend.repository.EtudiantRepository;
 import com.bog.internshipmanagementbackend.service.EtudiantService;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Service
+@AllArgsConstructor
 public class EtudiantServiceImpl implements EtudiantService {
     private EtudiantRepository etudiantRepository;
+    private ModelMapper Mapper;
+
     @Override
+    @Transactional
     public EtudiantDto addEtudiant(EtudiantDto etudiantDto) {
-        return null;
+        Etudiant etudiant = Mapper.map(etudiantDto,Etudiant.class);
+        Etudiant savedEtudiant = etudiantRepository.save(etudiant);
+        return Mapper.map(savedEtudiant, EtudiantDto.class);
+
     }
 
     @Override
     public EtudiantDto findEtudiantById(int id) {
-        return null;
+        Etudiant etudiant = etudiantRepository.findById((long) id).orElse(null);
+        return Mapper.map(etudiant,EtudiantDto.class);
+
     }
 
     @Override
     public List<EtudiantDto> findAllEtudiants() {
-        return null;
+        List<Etudiant> etudiants = etudiantRepository.findAll();
+        List<EtudiantDto> etudiantsDTOs = etudiants
+                .stream()
+                .map(etudiant -> Mapper.map(etudiant, EtudiantDto.class))
+                .collect(Collectors.toList());
+        return etudiantsDTOs;
     }
 
     @Override
     public List<EtudiantDto> findEtudiantsByPromo(int annee) {
-        return null;
+        List<Etudiant> etudiants = etudiantRepository.findByPromoAnnee(annee);
+        List<EtudiantDto> etudiantsDTOs = etudiants
+                .stream()
+                .map(etudiant -> Mapper.map(etudiant, EtudiantDto.class))
+                .collect(Collectors.toList());
+        return etudiantsDTOs;
     }
 
     @Override
-    public EtudiantDto updateEtudiant(EtudiantDto etudiantDto, int id) /*throws EntityNotFoundException*/ {
-        return null;
+    @Transactional
+    public EtudiantDto updateEtudiant(EtudiantDto etudiantDto, int id) throws EntityNotFoundException {
+        Etudiant etudiant = Mapper.map(etudiantDto,Etudiant.class);
+        Etudiant save = etudiantRepository.save(etudiant);
+        return Mapper.map(save,EtudiantDto.class);
     }
 
     @Override
-    public EtudiantDto deleteEtudiant(int id) {
-        return null;
+    @Transactional
+    public void deleteEtudiant(int id) {
+        etudiantRepository.deleteById((long) id);
     }
 
     @Override
-    public EtudiantDto deleteAllEtudiants() {
-        return null;
+    @Transactional
+    public void deleteAllEtudiants() {
+        etudiantRepository.deleteAll();
+
     }
 
-    @Override
+    public EtudiantDto findByEmail(String email) {
+        Etudiant etudiant = etudiantRepository.findByEmail(email);
+        return Mapper.map(etudiant, EtudiantDto.class);
+    }
+
+    public EtudiantDto findByNumPerso(String numPerso) {
+        Etudiant etudiant = etudiantRepository.findByNumPerso(numPerso);
+        return Mapper.map(etudiant, EtudiantDto.class);
+    }
+
+    public EtudiantDto findByEmailAndNumPerso(String email, String numPerso) {
+        Etudiant etudiant = etudiantRepository.findByEmailAndNumPerso(email, numPerso);
+        return Mapper.map(etudiant, EtudiantDto.class);
+    }
+
     public EtudiantDto etudiantLogin(String email, String password) {
+        /*Etudiant etudiant = etudiantRepository.findByEmailAndPassword(email, password);
+        return Mapper.map(etudiant, EtudiantDto.class);*/
         return null;
     }
 }
