@@ -15,6 +15,7 @@ public class CandidatDto {
     private String sexe;
     private String numPerso;
     private String email;
+    private String role;
     private String dossier1;
     private String dossier2;
     private List<Long> commissionIds;

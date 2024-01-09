@@ -4,16 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class Etudiant {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Etudiant extends User {
 
     @Column(nullable = false)
     private String nom;
@@ -33,8 +31,8 @@ public class Etudiant {
     @Column(nullable = false, unique = true)
     private String numPerso;
 
-    @Column(unique=true,nullable=false)
-    private String email;
+    @Column(nullable = false)
+    private String role;
 
     @Column(nullable = false)
     private String mentionExamen;
@@ -48,4 +46,9 @@ public class Etudiant {
     @OneToOne
     @JoinColumn(name = "annee")
     private Promo promo;
+    public Etudiant(String username, String email, String password) {
+        this.setUsername(username);
+        this.setEmail(email);
+        this.setPassword(password);
+    }
 }

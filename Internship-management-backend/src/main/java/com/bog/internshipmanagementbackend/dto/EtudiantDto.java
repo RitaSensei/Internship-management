@@ -14,6 +14,7 @@ public class EtudiantDto {
     private String sexe;
     private String numPerso;
     private String email;
+    private String role;
     private String mentionExamen;
     private Boolean completionStage;
     private Long numStage;

@@ -1,15 +1,15 @@
 package com.bog.internshipmanagementbackend.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
-public class Admin {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@Data @NoArgsConstructor
+public class Admin extends User{
     @Column(nullable = false)
     private String nom;
 
@@ -19,9 +19,9 @@ public class Admin {
     @Column(nullable = false)
     private String role;
 
-    @Column(unique=true,nullable=false)
-    private String email;
-
-    @Column(nullable=false)
-    private String password;
+    public Admin(String username, String email, String password) {
+        this.setUsername(username);
+        this.setEmail(email);
+        this.setPassword(password);
+    }
 }

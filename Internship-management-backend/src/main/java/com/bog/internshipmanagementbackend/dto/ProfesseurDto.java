@@ -11,6 +11,7 @@ public class ProfesseurDto {
     private String prenom;
     private String adresse;
     private String email;
+    private String role;
     private Date dateEmbauche;
     private Date dateDepart;
     private Long annee;
