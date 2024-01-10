@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Ajoutez d'autres feuilles de style ou balises meta au besoin -->
+    <title>Documents de Stage</title>
+</head>
+<body>
+
+<nav>
+    <!-- Votre barre de navigation -->
+    <app-nav-bar></app-nav-bar>
+</nav>
+
+<div class="container mt-4">
+    <h2>Formulaire de Stage</h2>
+    <form>
+        <div class="form-group">
+            <label for="nomEntreprise">Nom de l'entreprise :</label>
+            <input type="text" class="form-control" id="nomEntreprise" name="nomEntreprise" required>
+        </div>
+        <div class="form-group">
+            <label for="nomTuteur">Nom du tuteur :</label>
+            <input type="text" class="form-control" id="nomTuteur" name="nomTuteur" required>
+        </div>
+        <div class="form-group">
+            <label for="numTuteur">Numéro de téléphone du tuteur :</label>
+            <input type="tel" class="form-control" id="numTuteur" name="numTuteur" required>
+        </div>
+        <div class="form-group">
+            <label for="numEntreprise">Numéro de l'entreprise :</label>
+            <input type="tel" class="form-control" id="numEntreprise" name="numEntreprise" required>
+        </div>
+        <div class="form-group">
+            <label for="adresseEntreprise">Adresse de l'entreprise :</label>
+            <input type="text" class="form-control" id="adresseEntreprise" name="adresseEntreprise" required>
+        </div>
+        <div class="form-group">
+            <label for="numStandard">Numéro de téléphone standard :</label>
+            <input type="tel" class="form-control" id="numStandard" name="numStandard" required>
+        </div>
+        <div class="form-group">
+            <label for="ficheStage">Télécharger la fiche de stage :</label>
+            <input type="file" class="form-control-file" id="ficheStage" name="ficheStage" accept=".pdf, .doc, .docx" required>
+        </div>
+        <button type="submit" class="btn " style="background-color: rgb(185, 35, 35); color: beige;">Soumettre</button>
+    </form>
+</div>
+
+<app-footer></app-footer>
+
+</body>
+</html>
