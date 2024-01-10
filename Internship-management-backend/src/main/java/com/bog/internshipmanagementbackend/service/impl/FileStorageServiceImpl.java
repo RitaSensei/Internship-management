@@ -15,7 +15,9 @@ import java.net.MalformedURLException;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -76,18 +78,40 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
+    @Transactional
     public boolean delete(String filename) {
         try {
-            Path file = root.resolve(filename);
-            return Files.deleteIfExists(file);
+            Optional<File> fileOptional = fileRepository.findByName(filename);
+            if(fileOptional.isPresent()) {
+                Path file = root.resolve(filename);
+                boolean deletedFromFileSystem = Files.deleteIfExists(file);
+                if(deletedFromFileSystem) {
+                    fileRepository.delete(fileOptional.get());
+                    return true;
+                } else {
+                    throw new RuntimeException("Error deleting the file from local storage.");
+                }
+            } else {
+                throw new RuntimeException("File not found in the database.");
+            }
         } catch (IOException e) {
             throw new RuntimeException("Error: " + e.getMessage());
         }
     }
 
     @Override
+    @Transactional
     public void deleteAll() {
-
+        try {
+            List<File> fileEntities = fileRepository.findAll();
+            for (File file:fileEntities) {
+                Path filePath=root.resolve(file.getName());
+                Files.deleteIfExists(filePath);
+            }
+            fileRepository.deleteAll();
+        } catch (IOException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
         FileSystemUtils.deleteRecursively(root.toFile());
     }
 

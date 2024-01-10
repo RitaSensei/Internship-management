@@ -2,13 +2,12 @@ package com.bog.internshipmanagementbackend.service.impl;
 
 import com.bog.internshipmanagementbackend.domain.*;
 import com.bog.internshipmanagementbackend.exception.TokenRefreshException;
-import com.bog.internshipmanagementbackend.repository.RefreshTokenRepository;
+import com.bog.internshipmanagementbackend.repository.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,21 +20,32 @@ public class RefreshTokenServiceImpl {
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
 
-    @Autowired
-    private UserRepositoryBase<Admin> adminRepository;
+//    @Autowired
+//    private UserRepository userRepository;
 
     @Autowired
-    private UserRepositoryBase<Candidat> candidatRepository;
+    private AdminRepository adminRepository;
 
     @Autowired
-    private UserRepositoryBase<Etudiant> etudiantRepository;
+    private CandidatRepository candidatRepository;
 
     @Autowired
-    private UserRepositoryBase<Professeur> professeurRepository;
+    private EtudiantRepository etudiantRepository;
+
+    @Autowired
+    private ProfesseurRepository professeurRepository;
 
     public Optional<RefreshToken> findByToken(String token) {
         return refreshTokenRepository.findByToken(token);
     }
+//    public RefreshToken createRefreshToken(Long userId) {
+//        RefreshToken refreshToken = new RefreshToken();
+//        refreshToken.setUser(userRepository.findById(userId).get());
+//        refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
+//        refreshToken.setToken(UUID.randomUUID().toString());
+//        refreshToken = refreshTokenRepository.save(refreshToken);
+//        return refreshToken;
+//    }
 
     public RefreshToken createAdminRefreshToken(Long adminId) {
         RefreshToken refreshToken = new RefreshToken();
@@ -75,7 +85,11 @@ public class RefreshTokenServiceImpl {
         }
         return token;
     }
-
+    //    @Transactional
+//    public int deleteByUserId(Long userId) {
+//        User user= userRepository.findById(userId).orElseThrow(()-> new RuntimeException("User not found"));
+//        return refreshTokenRepository.deleteByUser(user);
+//    }
     @Transactional
     public int deleteAdminRefreshTokens(Long adminId) {
         Admin admin = adminRepository.findById(adminId).orElseThrow(() -> new RuntimeException("Admin not found"));

@@ -16,6 +16,12 @@ public abstract class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false)
+    private String nom;
+
+    @Column(nullable = false)
+    private String prenom;
+
     @NotBlank
     @Size(max = 20)
     @Column(unique = true)
@@ -31,9 +37,21 @@ public abstract class User {
     @Size(max = 120)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id") // Assuming you have a column named "role_id" in the User table
+    private Role role;
+
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(String nom, String prenom,String username, String email, String password) {
+        this.nom=nom;
+        this.prenom=prenom;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 }

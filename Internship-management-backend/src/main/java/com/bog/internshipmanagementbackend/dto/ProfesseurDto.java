@@ -10,7 +10,9 @@ public class ProfesseurDto {
     private String nom;
     private String prenom;
     private String adresse;
+    private String username;
     private String email;
+    private String password;
     private String role;
     private Date dateEmbauche;
     private Date dateDepart;

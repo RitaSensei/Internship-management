@@ -39,5 +39,3 @@ public class Exige implements Serializable {
         private String idStage;  // Corresponding to the Stage primary key
     }
 }
-
-

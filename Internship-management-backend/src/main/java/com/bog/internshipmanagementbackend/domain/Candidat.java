@@ -13,36 +13,32 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Candidat extends User {
-    @Column(nullable = false)
-    private String nom;
 
-    @Column(nullable = false)
-    private String prenom;
-
-    @Column(nullable = false)
+    //    @Column(nullable = false)
     private String adresse;
 
-    @Column(nullable = false)
+    //    @Column(nullable = false)
     private Date dateNaissance;
 
-    @Column(nullable = false)
+    //    @Column(nullable = false)
     private String sexe;
 
     @Column(nullable = false,unique = true)
     private String numPerso;
 
-    @Column(nullable = false)
+    //    @Column(nullable = false)
     private String dossier1;
 
-    @Column(nullable = false)
-    private String role;
     private String dossier2;
 
     @OneToMany(mappedBy = "candidat", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Examine> commissions;
     public Candidat(String username, String email, String password) {
-        this.setUsername(username);
-        this.setEmail(email);
-        this.setPassword(password);
+        super(username, email, password);
+    }
+
+    public Candidat(String nom, String prenom, String numPerso, String username, String email, String password) {
+        super(nom,prenom,username, email, password);
+        this.numPerso=numPerso;
     }
 }

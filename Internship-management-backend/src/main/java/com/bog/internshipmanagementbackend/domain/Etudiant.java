@@ -13,42 +13,36 @@ import java.util.Date;
 @Data @NoArgsConstructor @AllArgsConstructor
 public class Etudiant extends User {
 
-    @Column(nullable = false)
-    private String nom;
-
-    @Column(nullable = false)
-    private String prenom;
-
-    @Column(nullable = false)
+    //    @Column(nullable = false)
     private String adresse;
 
-    @Column(nullable = false)
+    //    @Column(nullable = false)
     private Date dateNaissance;
 
-    @Column(nullable = false)
+    //    @Column(nullable = false)
     private String sexe;
 
     @Column(nullable = false, unique = true)
     private String numPerso;
 
-    @Column(nullable = false)
-    private String role;
-
-    @Column(nullable = false)
+    //    @Column(nullable = false)
     private String mentionExamen;
 
-    @Column(nullable = false)
+    //    @Column(nullable = false)
     private Boolean completionStage;
 
     @OneToOne(mappedBy = "etudiant")
     private Stage stage;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "annee")
     private Promo promo;
     public Etudiant(String username, String email, String password) {
-        this.setUsername(username);
-        this.setEmail(email);
-        this.setPassword(password);
+        super(username, email, password);
+    }
+
+    public Etudiant(String nom, String prenom, String numPerso, String username, String email, String password) {
+        super(nom,prenom,username, email, password);
+        this.numPerso=numPerso;
     }
 }

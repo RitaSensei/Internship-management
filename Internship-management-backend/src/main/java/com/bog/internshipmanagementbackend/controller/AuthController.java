@@ -1,6 +1,7 @@
 package com.bog.internshipmanagementbackend.controller;
 
 import com.bog.internshipmanagementbackend.domain.*;
+import com.bog.internshipmanagementbackend.dto.AdminDto;
 import com.bog.internshipmanagementbackend.exception.TokenRefreshException;
 import com.bog.internshipmanagementbackend.payload.request.LoginRequest;
 import com.bog.internshipmanagementbackend.payload.request.SignupRequest;
@@ -40,7 +41,7 @@ public class AuthController {
     AuthenticationManager authenticationManager;
 
 //    @Autowired
-//    UserRepositoryBase<User> userRepository;
+//    UserRepository userRepository;
 
     @Autowired
     AdminRepository adminRepository;
@@ -58,7 +59,7 @@ public class AuthController {
     RoleRepository roleRepository;
 
     @Autowired
-    PasswordEncoder encoder;
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     JwtUtils jwtUtils;
@@ -66,49 +67,124 @@ public class AuthController {
     @Autowired
     RefreshTokenServiceImpl refreshTokenService;
 
-    @PostMapping("/sign-in-admin")
+    @PostMapping("/sign-in")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        ERole eRole = ERole.valueOf(loginRequest.getRole());
+        switch (eRole) {
+            case ROLE_ADMIN:
+                return authenticateAdmin(loginRequest);
+            case ROLE_PROFESSOR:
+                return authenticateProfesseur(loginRequest);
+            case ROLE_ETUDIANT:
+                return authenticateEtudiant(loginRequest);
+            case ROLE_CANDIDAT:
+                return authenticateCandidat(loginRequest);
+            default:
+                return ResponseEntity.badRequest().body("Invalid role");
+        }
+    }
+    //    @PostMapping("/sign-in")
+//    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+//        Authentication authentication = authenticationManager
+//                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+//        String jwt = jwtUtils.generateJwtToken(userDetails);
+//        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+//        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
+//        return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+//    }
     public ResponseEntity<?> authenticateAdmin(@Valid @RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String jwt = jwtUtils.generateJwtToken(userDetails);
-        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
         RefreshToken refreshToken = refreshTokenService.createAdminRefreshToken(userDetails.getId());
-        return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+//        ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.getToken());
+//        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body(new JwtResponse(
+                        jwt,
+                        refreshToken.getToken(),
+                        userDetails.getId(),
+                        userDetails.getUsername(),
+                        userDetails.getEmail(),
+                        userDetails.getAuthorities().iterator().next().getAuthority()));
     }
 
-    @PostMapping("/sign-in-candidat")
     public ResponseEntity<?> authenticateCandidat(@Valid @RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String jwt = jwtUtils.generateJwtToken(userDetails);
-        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-        RefreshToken refreshToken = refreshTokenService.createCandidatRefreshToken(userDetails.getId());
-        return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+        RefreshToken refreshToken = refreshTokenService.createAdminRefreshToken(userDetails.getId());
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+//        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body(new JwtResponse(
+                        jwt,
+                        refreshToken.getToken(),
+                        userDetails.getId(),
+                        userDetails.getUsername(),
+                        userDetails.getEmail(),
+                        userDetails.getAuthorities().iterator().next().getAuthority()));
     }
-    @PostMapping("/sign-in-etudiant")
     public ResponseEntity<?> authenticateEtudiant(@Valid @RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String jwt = jwtUtils.generateJwtToken(userDetails);
-        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-        RefreshToken refreshToken = refreshTokenService.createEtudiantRefreshToken(userDetails.getId());
-        return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+        RefreshToken refreshToken = refreshTokenService.createAdminRefreshToken(userDetails.getId());
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+//        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body(new JwtResponse(
+                        jwt,
+                        refreshToken.getToken(),
+                        userDetails.getId(),
+                        userDetails.getUsername(),
+                        userDetails.getEmail(),
+                        userDetails.getAuthorities().iterator().next().getAuthority()));
     }
-    @PostMapping("/sign-in-professeur")
     public ResponseEntity<?> authenticateProfesseur(@Valid @RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String jwt = jwtUtils.generateJwtToken(userDetails);
-        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-        RefreshToken refreshToken = refreshTokenService.createProfesseurRefreshToken(userDetails.getId());
-        return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+        RefreshToken refreshToken = refreshTokenService.createAdminRefreshToken(userDetails.getId());
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+//        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body(new JwtResponse(
+                        jwt,
+                        refreshToken.getToken(),
+                        userDetails.getId(),
+                        userDetails.getUsername(),
+                        userDetails.getEmail(),
+                        userDetails.getAuthorities().iterator().next().getAuthority()));
     }
 
-    @PostMapping("/refresh-token-admin")
+    @PostMapping("/refreshtoken")
+    public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
+        ERole eRole = ERole.valueOf(request.getRole());
+        switch (eRole) {
+            case ROLE_ADMIN:
+                return refreshAdminToken(request);
+            case ROLE_PROFESSOR:
+                return refreshProfesseurToken(request);
+            case ROLE_ETUDIANT:
+                return refreshEtudiantToken(request);
+            case ROLE_CANDIDAT:
+                return refreshCandidatToken(request);
+            default:
+                return ResponseEntity.badRequest().body("Invalid role");
+        }
+    }
     public ResponseEntity<?> refreshAdminToken(@Valid @RequestBody TokenRefreshRequest request) {
         return refreshTokenService.findByToken(request.getRefreshToken())
                 .map(refreshTokenService::verifyExpiration)
@@ -119,7 +195,6 @@ public class AuthController {
                 })
                 .orElseThrow(() -> new TokenRefreshException(request.getRefreshToken(), "Error refreshing token"));
     }
-    @PostMapping("/refresh-token-candidat")
     public ResponseEntity<?> refreshCandidatToken(@Valid @RequestBody TokenRefreshRequest request) {
         return refreshTokenService.findByToken(request.getRefreshToken())
                 .map(refreshTokenService::verifyExpiration)
@@ -130,7 +205,6 @@ public class AuthController {
                 })
                 .orElseThrow(() -> new TokenRefreshException(request.getRefreshToken(), "Error refreshing token"));
     }
-    @PostMapping("/refresh-token-etudiant")
     public ResponseEntity<?> refreshEtudiantToken(@Valid @RequestBody TokenRefreshRequest request) {
         return refreshTokenService.findByToken(request.getRefreshToken())
                 .map(refreshTokenService::verifyExpiration)
@@ -141,7 +215,6 @@ public class AuthController {
                 })
                 .orElseThrow(() -> new TokenRefreshException(request.getRefreshToken(), "Error refreshing token"));
     }
-    @PostMapping("/refresh-token-professeur")
     public ResponseEntity<?> refreshProfesseurToken(@Valid @RequestBody TokenRefreshRequest request) {
         return refreshTokenService.findByToken(request.getRefreshToken())
                 .map(refreshTokenService::verifyExpiration)
@@ -152,7 +225,23 @@ public class AuthController {
                 })
                 .orElseThrow(() -> new TokenRefreshException(request.getRefreshToken(), "Error refreshing token"));
     }
-    @PostMapping("/sign-up-admin")
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        ERole eRole = ERole.valueOf(signUpRequest.getRole());
+        switch (eRole) {
+            case ROLE_ADMIN:
+                return registerAdmin(signUpRequest);
+            case ROLE_PROFESSOR:
+                return registerProfesseur(signUpRequest);
+            case ROLE_ETUDIANT:
+                return registerEtudiant(signUpRequest);
+            case ROLE_CANDIDAT:
+                return registerCandidat(signUpRequest);
+            default:
+                return ResponseEntity.badRequest().body("Invalid role");
+        }
+    }
     public ResponseEntity<?> registerAdmin(@Valid @RequestBody SignupRequest signUpRequest) {
         if (adminRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
@@ -161,16 +250,19 @@ public class AuthController {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
         }
         // Create new admin account
-        Admin admin = new Admin(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
+        Admin admin = new Admin(signUpRequest.getNom(), signUpRequest.getPrenom(), signUpRequest.getNumPerso(),
+                signUpRequest.getUsername(), signUpRequest.getEmail(),
+                passwordEncoder.encode(signUpRequest.getPassword()));
+
+        Role existingAdminRole = roleRepository.findByNom(ERole.ROLE_ADMIN)
+                .orElseThrow(() -> new RuntimeException("Admin role not found in the database"));
         // Assign the fixed role for admin
-        Role adminRole = roleRepository.findByNom(ERole.ROLE_ADMIN).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        admin.setRoles(Collections.singleton(adminRole));
+        admin.setRole(existingAdminRole);
         adminRepository.save(admin);
         // Create refresh token for the registered admin
         refreshTokenService.createAdminRefreshToken(admin.getId());
         return ResponseEntity.ok(new MessageResponse("Admin registered successfully!"));
     }
-    @PostMapping("/sign-up-candidat")
     public ResponseEntity<?> registerCandidat(@Valid @RequestBody SignupRequest signUpRequest) {
         if (candidatRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
@@ -179,16 +271,17 @@ public class AuthController {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
         }
         // Create new candidat account
-        Candidat candidat = new Candidat(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
+        Candidat candidat = new Candidat(signUpRequest.getNom(), signUpRequest.getPrenom(), signUpRequest.getNumPerso(),
+                signUpRequest.getUsername(), signUpRequest.getEmail(),
+                passwordEncoder.encode(signUpRequest.getPassword()));
         // Assign the fixed role for candidat
-        Role candidatRole = roleRepository.findByNom(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        candidat.setRoles(Collections.singleton(candidatRole));
+        Role existingCandidatRole = roleRepository.findByNom(ERole.ROLE_CANDIDAT).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        candidat.setRole(existingCandidatRole);
         candidatRepository.save(candidat);
         // Create refresh token for the registered candidat
         refreshTokenService.createCandidatRefreshToken(candidat.getId());
         return ResponseEntity.ok(new MessageResponse("Candidat registered successfully!"));
     }
-    @PostMapping("/sign-up-etudiant")
     public ResponseEntity<?> registerEtudiant(@Valid @RequestBody SignupRequest signUpRequest) {
         if (etudiantRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
@@ -197,16 +290,17 @@ public class AuthController {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
         }
         // Create new etudiant account
-        Etudiant etudiant = new Etudiant(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
+        Etudiant etudiant = new Etudiant(signUpRequest.getNom(), signUpRequest.getPrenom(), signUpRequest.getNumPerso(),
+                signUpRequest.getUsername(), signUpRequest.getEmail(),
+                passwordEncoder.encode(signUpRequest.getPassword()));
         // Assign the fixed role for etudiant
-        Role etudiantRole = roleRepository.findByNom(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        etudiant.setRoles(Collections.singleton(etudiantRole));
+        Role existingEtudiantRole = roleRepository.findByNom(ERole.ROLE_ETUDIANT).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        etudiant.setRole(existingEtudiantRole);
         etudiantRepository.save(etudiant);
         // Create refresh token for the registered etudiant
         refreshTokenService.createEtudiantRefreshToken(etudiant.getId());
         return ResponseEntity.ok(new MessageResponse("Etudiant registered successfully!"));
     }
-    @PostMapping("/sign-up-professeur")
     public ResponseEntity<?> registerProfesseur(@Valid @RequestBody SignupRequest signUpRequest) {
         if (professeurRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
@@ -215,10 +309,12 @@ public class AuthController {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
         }
         // Create new professeur account
-        Professeur professeur = new Professeur(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
+        Professeur professeur = new Professeur(signUpRequest.getNom(), signUpRequest.getPrenom(),
+                signUpRequest.getUsername(), signUpRequest.getEmail(),
+                passwordEncoder.encode(signUpRequest.getPassword()));
         // Assign the fixed role for professeur
-        Role professeurRole = roleRepository.findByNom(ERole.ROLE_PROFESSOR).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        professeur.setRoles(Collections.singleton(professeurRole));
+        Role existingProfesseurRole = roleRepository.findByNom(ERole.ROLE_PROFESSOR).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        professeur.setRole(existingProfesseurRole);
         professeurRepository.save(professeur);
         // Create refresh token for the registered professeur
         refreshTokenService.createProfesseurRefreshToken(professeur.getId());

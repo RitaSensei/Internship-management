@@ -19,10 +19,8 @@ import java.io.IOException;
 public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtUtils;
-
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
-
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
     @Override
@@ -30,17 +28,25 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                String username = jwtUtils.getUserNameFromJwtToken(jwt);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                String username = String.valueOf(jwtUtils.getUserNameFromJwtToken(jwt));
+                UserDetails userDetails = null;
+                // Choose the appropriate method based on user type
+                if (jwtUtils.isAdminToken(jwt)) {
+                    userDetails = userDetailsService.loadAdminByUsername(username);
+                } else if (jwtUtils.isCandidatToken(jwt)) {
+                    userDetails = userDetailsService.loadCandidatByUsername(username);
+                } else if (jwtUtils.isEtudiantToken(jwt)) {
+                    userDetails = userDetailsService.loadEtudiantByUsername(username);
+                } else if (jwtUtils.isProfesseurToken(jwt)) {
+                    userDetails = userDetailsService.loadProfesseurByUsername(username);
+                }
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e);
         }
-
         filterChain.doFilter(request, response);
     }
 

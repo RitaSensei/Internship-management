@@ -10,18 +10,16 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data @NoArgsConstructor
 public class Admin extends User{
-    @Column(nullable = false)
-    private String nom;
 
-    @Column(nullable = false)
-    private String prenom;
-
-    @Column(nullable = false)
-    private String role;
+    @Column(nullable = false, unique = true)
+    private String numPerso;
 
     public Admin(String username, String email, String password) {
-        this.setUsername(username);
-        this.setEmail(email);
-        this.setPassword(password);
+        super(username, email, password);
+    }
+
+    public Admin(String nom, String prenom, String numPerso, String username, String email, String password) {
+        super(nom,prenom,username, email, password);
+        this.numPerso=numPerso;
     }
 }

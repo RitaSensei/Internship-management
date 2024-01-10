@@ -13,6 +13,10 @@ public class RefreshToken {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
+
     @ManyToOne
     @JoinColumn(name = "admin_id")
     private Admin admin;
@@ -34,7 +38,5 @@ public class RefreshToken {
 
     @Column(nullable = false)
     private Instant expiryDate;
+
 }
-
-
-

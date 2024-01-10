@@ -27,3 +27,4 @@ public class Promo {
 	@JoinColumn(name = "idProf")
 	private Professeur professeur;
 }
+

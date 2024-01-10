@@ -12,19 +12,11 @@ import java.util.Date;
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
 public class Professeur extends User {
-    @Column(nullable = false)
-    private String nom;
 
-    @Column(nullable = false)
-    private String prenom;
-
-    @Column(nullable = false)
+    //    @Column(nullable = false)
     private String adresse;
 
-    @Column(nullable = false)
-    private String role;
-
-    @Column(nullable = false)
+    //    @Column(nullable = false)
     private Date dateEmbauche;
 
     private Date dateDepart;
@@ -32,8 +24,10 @@ public class Professeur extends User {
     @OneToOne(mappedBy = "professeur") // Use the field name in the Promo entity
     private Promo promo;
     public Professeur(String username, String email, String password) {
-        this.setUsername(username);
-        this.setEmail(email);
-        this.setPassword(password);
+        super(username, email, password);
+    }
+
+    public Professeur(String nom, String prenom, String username, String email, String password) {
+        super(nom,prenom,username, email, password);
     }
 }

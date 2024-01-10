@@ -49,6 +49,7 @@ public class FileController {
 //            return new File(filename, url);
 //        }).collect(Collectors.toList());
         List<File> fileInfos = fileRepository.findAll();
+        System.out.println(fileInfos.size());
         return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
     }
     @GetMapping("/files/{filename:.+}")
@@ -72,6 +73,19 @@ public class FileController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse(message));
         } catch (Exception e) {
             message = "Could not delete the file: " + filename + ". Error: " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse(message));
+        }
+    }
+
+    @DeleteMapping("/files")
+    public ResponseEntity<MessageResponse> deleteAllFiles() {
+        String message = "";
+        try {
+            fileStorageService.deleteAll();
+            message = "Delete all files and their information successfully.";
+            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
+        } catch (Exception e) {
+            message = "Could not delete all files. Error: " + e.getMessage();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse(message));
         }
     }

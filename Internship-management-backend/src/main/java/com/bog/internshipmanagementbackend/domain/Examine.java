@@ -1,5 +1,6 @@
 package com.bog.internshipmanagementbackend.domain;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

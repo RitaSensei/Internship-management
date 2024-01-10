@@ -13,7 +13,9 @@ public class EtudiantDto {
     private Date dateNaissance;
     private String sexe;
     private String numPerso;
+    private String username;
     private String email;
+    private String password;
     private String role;
     private String mentionExamen;
     private Boolean completionStage;

@@ -14,6 +14,6 @@ public interface AdminService {
     AdminDto updateAdmin(AdminDto AdminDto, int id) throws EntityNotFoundException;
     void deleteAdmin(int id);
     void deleteAllAdmins();
-    AdminDto AdminLogin(String email, String password);
-    boolean Inscription();
+//    AdminDto AdminLogin(String email, String password);
+//    boolean Inscription();
 }

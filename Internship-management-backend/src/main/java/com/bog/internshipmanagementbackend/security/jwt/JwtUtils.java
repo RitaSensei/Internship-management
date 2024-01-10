@@ -57,9 +57,14 @@ public class JwtUtils {
         return cookie;
     }
 
-    public String getUserNameFromJwtToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(jwtSecret).build()
-                .parseClaimsJws(token).getBody().getSubject();
+    public JwtUser getUserNameFromJwtToken(String token) {
+        Claims claims = Jwts.parserBuilder().setSigningKey(jwtSecret).build()
+                .parseClaimsJws(token).getBody();
+
+        String username = claims.getSubject();
+        String userType = claims.get("userType", String.class);
+
+        return new JwtUser(username, userType);
     }
 
     public String generateJwtToken(UserDetailsImpl userPrincipal) {
@@ -96,5 +101,25 @@ public class JwtUtils {
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
                 .compact();
+    }
+
+    public boolean isAdminToken(String authToken) {
+        JwtUser jwtUser = getUserNameFromJwtToken(authToken);
+        return "ADMIN".equals(jwtUser.getUserType());
+    }
+
+    public boolean isCandidatToken(String authToken) {
+        JwtUser jwtUser = getUserNameFromJwtToken(authToken);
+        return "CANDIDAT".equals(jwtUser.getUserType());
+    }
+
+    public boolean isEtudiantToken(String authToken) {
+        JwtUser jwtUser = getUserNameFromJwtToken(authToken);
+        return "ETUDIANT".equals(jwtUser.getUserType());
+    }
+
+    public boolean isProfesseurToken(String authToken) {
+        JwtUser jwtUser = getUserNameFromJwtToken(authToken);
+        return "PROFESSEUR".equals(jwtUser.getUserType());
     }
 }
