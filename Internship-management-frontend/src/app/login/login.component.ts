@@ -1,20 +1,34 @@
 // login.component.ts
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';  // Correct import statement
 
-import { AuthService } from '../services/auth.service';
+import {  AuthService } from '../services/auth.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [
+    AuthService
+],
+
 })
 export class LoginComponent {
-  constructor(private authService: AuthService, private router: Router) {}  // Fix the parenthesis here
+  username: string = '';
+  password: string = '';
+  role: string = '';
 
-  login(username: string, password: string): void {
-    // Call authentication service to perform login
-    this.authService.login(username, password);
-    this.router.navigate(['/accueil']);
-  }
-}
+  constructor(private authService: AuthService) {}
+
+  onSubmit(): void {
+    this.authService.login(this.username, this.password, this.role).subscribe(
+      (response: any) => {
+        console.log('Login successful', response);
+        // Handle successful login, e.g., navigate to another page
+      },
+      (error: any) => {
+        console.error('Login failed', error);
+        // Handle login error, e.g., display an error message
+      }
+    );
+  }}
