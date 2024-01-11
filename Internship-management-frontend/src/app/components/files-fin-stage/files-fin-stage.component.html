@@ -28,31 +28,22 @@
             </select>
         </div>
         
-        <div class="form-group">
-            <label for="nomEntreprise">Nom de l'entreprise :</label>
-            <input type="text" class="form-control" id="nomEntreprise" name="nomEntreprise" required>
-        </div>
-        <div class="form-group">
-            <label for="nomTuteur">Nom du tuteur :</label>
-            <input type="text" class="form-control" id="nomTuteur" name="nomTuteur" required>
-        </div>
-        <div class="form-group">
-            <label for="numTuteur">Numéro de téléphone du tuteur :</label>
-            <input type="tel" class="form-control" id="numTuteur" name="numTuteur" required>
-        </div>
-        <div class="form-group">
-            <label for="numEntreprise">Numéro de l'entreprise :</label>
-            <input type="tel" class="form-control" id="numEntreprise" name="numEntreprise" required>
-        </div>
+        <label for="FicheStage">Attestation de stage :</label>
+
+
+        <input type="file" (change)="selectFile($event)" />
+
+        <button (click)="upload()">Upload</button><br>
+        <label for="FicheStage">Fiche d'évaluation :</label>
+
+
+        <input type="file" (change)="selectFile($event)" />
+
+        <button (click)="upload()">Upload</button><br>
+
        
-        <div class="form-group">
-            <label for="numStandard">Numéro de téléphone standard :</label>
-            <input type="tel" class="form-control" id="numStandard" name="numStandard" required>
-        </div>
-        
-       
-    </form>
-    <label for="FicheStage">Fiche de Stage :</label>
+    
+    <label for="FicheStage">Rapport de Stage :</label>
 
 
             <input type="file" (change)="selectFile($event)" />
