@@ -13,19 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("Admin")
+//@RequestMapping("Admin")
 public class AdminController {
-
-//    @Autowired
-//    private AdminRepository adminRepository;
-//    @Autowired private AdminService adminService;
-//
-//    @PostMapping(value = "Login/{email}/{password}")
-//    public ResponseEntity<AdminDto> LoginAdmin(@PathVariable String email, @PathVariable String password){
-//        try {
-//            return new ResponseEntity<>(adminService.adminLogin(email, password), HttpStatus.ACCEPTED);
-//        }catch (EntityNotFoundException e){
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
 }
