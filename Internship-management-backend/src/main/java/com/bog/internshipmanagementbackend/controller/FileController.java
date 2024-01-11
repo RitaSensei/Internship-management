@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@CrossOrigin("http://localhost:8081")
+@CrossOrigin("http://localhost:4200")
 @RequestMapping("/api")
 //@RestController
 public class FileController {
@@ -28,26 +30,23 @@ public class FileController {
     FileStorageService fileStorageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<MessageResponse> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<MessageResponse> uploadFiles(@RequestParam("files") MultipartFile[] files) {
         String message = "";
         try {
-            fileStorageService.store(file);
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            List<String> fileNames = new ArrayList<>();
+            Arrays.asList(files).stream().forEach(file -> {
+                fileStorageService.store(file);
+                fileNames.add(file.getOriginalFilename());
+            });
+            message = "Uploaded the files successfully: " + fileNames;
             return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
         } catch (Exception e) {
-            message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
+            message = "Could not upload the files. Error: " + e.getMessage();
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
         }
     }
-
     @GetMapping("/files")
     public ResponseEntity<List<File>> getListFiles() {
-//        List<File> fileInfos = fileStorageService.loadAll().map(path -> {
-//            String filename = path.getFileName().toString();
-//            String url = MvcUriComponentsBuilder
-//                    .fromMethodName(FileController.class, "getFile", path.getFileName().toString()).build().toString();
-//            return new File(filename, url);
-//        }).collect(Collectors.toList());
         List<File> fileInfos = fileRepository.findAll();
         System.out.println(fileInfos.size());
         return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
