@@ -8,7 +8,7 @@
             <!-- Login form -->
             <form style="display: flex; flex-direction: column; gap: 15px;" (submit)="onSubmit()">
                 <label for="username" style="font-size: 16px; color: #ffffff;">Username:</label>
-                <input type="text" [(ngModel)]="username" />
+                <input type="text" id="username" [(ngModel)]="username" required style="padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px;">
             
                 <label for="password" style="font-size: 16px; color: #ffffff;">Password:</label>
                 <input type="password" id="password" [(ngModel)]="password" required style="padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px;">
