@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -14,13 +15,15 @@ import java.util.List;
 @NoArgsConstructor
 public class Candidat extends User {
 
-    //    @Column(nullable = false)
+    @Column(nullable = false)
     private String adresse;
 
-    //    @Column(nullable = false)
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateNaissance;
 
-    //    @Column(nullable = false)
+    @Column(nullable = false)
     private String sexe;
 
     @Column(nullable = false,unique = true)
@@ -37,8 +40,11 @@ public class Candidat extends User {
         super(username, email, password);
     }
 
-    public Candidat(String nom, String prenom, String numPerso, String username, String email, String password) {
+    public Candidat(String nom, String prenom, String numPerso,String adresse,Date dateNaissance,String sexe, String username, String email, String password) {
         super(nom,prenom,username, email, password);
+        this.adresse=adresse;
+        this.dateNaissance=dateNaissance;
+        this.sexe=sexe;
         this.numPerso=numPerso;
     }
 }

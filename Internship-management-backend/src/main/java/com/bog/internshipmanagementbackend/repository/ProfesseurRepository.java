@@ -16,6 +16,7 @@ public interface ProfesseurRepository extends JpaRepository<Professeur,Long> {
     List<Professeur> findByDateEmbaucheAfter(Date dateE);
     List<Professeur> findByDateDepartAfter(Date dateD);
     Optional<Professeur> findByUsername(String username);
+    List<Professeur> findByPromoAnnee(int annee);
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
 }
