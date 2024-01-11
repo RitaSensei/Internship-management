@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" style="height: 100%;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Add any additional stylesheets or meta tags here -->
+    <title>Professor Validation</title>
+</head>
+
+<body >
+
+    <nav>
+        <!-- Your navigation bar component -->
+        <app-nav-bar></app-nav-bar>
+    </nav>
+<div style=" display: flex; height: 100vh;">
+    <div class="container mt-4 flex-grow-1 h-100">
+        <h2 class="mb-4">Internship Document Validation</h2>
+
+        <!-- Display a list of students and their document status -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Company Name</th>
+                    <th>Document Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Replace the dummy data with actual data from your backend -->
+                <tr>
+                    <td>John Doe</td>
+                    <td>ABC Corporation</td>
+                    <td>Not Validated</td>
+                    <td>
+                        <!-- Add a button or link to trigger the validation process -->
+                        <button class="btn btn-primary">Validate</button>
+                    </td>
+                </tr>
+                <!-- Add more rows for other students -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    <app-footer></app-footer>
+
+</body>
+
+</html>

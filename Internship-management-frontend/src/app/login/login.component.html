@@ -1,0 +1,41 @@
+<div style="display: flex; height: 100vh;">
+    <!-- Left side - Login form -->
+    <div style="flex: 1; background-color: #000000; border-top-left-radius: 24px; border-bottom-left-radius: 24px; padding: 50px; color: white;">
+        <div style="flex-direction: column; gap: 12px; display: flex;">
+            <div style="font-size: 36px; font-family: Poppins; font-weight: 700; word-wrap: break-word;">Sign in</div>
+            <div style="font-size: 14px; font-family: Poppins; font-weight: 500; word-wrap: break-word;">Enter your account details</div>
+            
+            <!-- Login form -->
+            <form style="display: flex; flex-direction: column; gap: 15px;" (submit)="login(username.value, password.value)">
+                <label for="username" style="font-size: 16px; color: #ffffff;">Username:</label>
+                <input type="text" id="username" #username required style="padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px;">
+        
+                <label for="password" style="font-size: 16px; color: #ffffff;">Password:</label>
+                <input type="password" id="password" #password required style="padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px;">
+        
+                <!-- Move the button inside the form -->
+                <button type="submit" style="background-color: #411010; color: #fff; padding: 10px 20px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer;">Login</button>
+            </form>
+            
+            <!-- Additional elements -->
+            <div style="height: 36px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 12px; display: flex;">
+                <div style="width: 381px; height: 0px; border: 1px rgba(255, 255, 255, 0.40) solid;"></div>
+            </div>
+            <div style="color: rgba(255, 255, 255, 0.50); font-size: 16px; font-family: Poppins; font-weight: 400; word-wrap: break-word;">Forgot Password?</div>
+            
+            <!-- Button div (moved inside the form) -->
+            
+        </div>
+    </div>
+    
+    <!-- Right side - Another div -->
+    <div style="flex: 1; background: linear-gradient(to right, black, #411010); border-top-right-radius: 24px; border-bottom-right-radius: 24px; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div>
+            <span style="color: #EEEEEE; font-size: 60px; font-family: Poppins; font-weight: 700; line-height: 60px; word-wrap: break-word;">Bienvenue à <br/></span>
+            <span style="color: #EEEEEE; font-size: 60px; font-family: Poppins; font-weight: 400; line-height: 60px; word-wrap: break-word;">ENSIAS InternHub</span>
+        </div>
+        
+        <!-- Centered image -->
+        <img src="assets/ENSIAS.png" style="width: 40%; margin-top: 40px;">
+    </div>
+</div>
