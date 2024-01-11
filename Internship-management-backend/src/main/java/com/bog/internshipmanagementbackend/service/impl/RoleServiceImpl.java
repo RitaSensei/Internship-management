@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RoleServiceImpl {
-    @Autowired
+  /*  @Autowired
     private RoleRepository roleRepository;
 
     // This method is just an example. You can call it in a suitable place in your application.
@@ -32,5 +32,5 @@ public class RoleServiceImpl {
                     role.setNom(nom);
                     return roleRepository.save(role);
                 });
-    }
+    }*/
 }
