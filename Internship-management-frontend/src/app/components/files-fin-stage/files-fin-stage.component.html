@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Ajoutez d'autres feuilles de style ou balises meta au besoin -->
+    <title>Documents de Stage</title>
+</head>
+<body>
+
+<nav>
+    <!-- Votre barre de navigation -->
+    <app-nav-bar></app-nav-bar>
+</nav>
+
+<div class="container mt-4">
+    <h2>Formulaire de Stage</h2>
+    <form>
+        <div class="form-group">
+            <label for="typeStage">Type de Stage :</label>
+            <select class="form-control" id="typeStage" name="TypeStage" required>
+                <option value="premiere_annee_4_semaines_mars">Première année - Mars</option>
+                <option value="deuxieme_annee_4_semaines_octobre">Deuxième année -Octobre</option>
+                <option value="deuxieme_annee_8_semaines_juin_juillet">Deuxième année - Juin-Juillet</option>
+                <option value="troisieme_annee_2_semaines_octobre">Troisième année -Octobre</option>
+                <option value="troisieme_annee_3_mois_janvier_mars">Troisième année -Janvier à Mars</option>
+            </select>
+        </div>
+        
+        <label for="FicheStage">Attestation de stage :</label>
+
+
+        <input type="file" (change)="selectFile($event)" />
+
+        <button (click)="upload()">Upload</button><br>
+        <label for="FicheStage">Fiche d'évaluation :</label>
+
+
+        <input type="file" (change)="selectFile($event)" />
+
+        <button (click)="upload()">Upload</button><br>
+
+       
+    
+    <label for="FicheStage">Rapport de Stage :</label>
+
+
+            <input type="file" (change)="selectFile($event)" />
+
+            <button (click)="upload()">Upload</button><br>
+
+    <button type="submit" class="btn btn-primary" style="border-color: rgb(51, 29, 29);background-color: brown;">Soumettre</button>
+
+</div>
+
+<app-footer></app-footer>
+
+</body>
+</html>
